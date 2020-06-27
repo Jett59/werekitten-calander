@@ -15,3 +15,7 @@ jobs:
       - run:
           name: Build calendar exe
           command: make
+
+      - run:
+          name: Run calendar
+          command: ./calendar.exe
