@@ -6,11 +6,6 @@ jobs:
       - image: cimg/base:2020.01
     steps:
       - checkout
-      - run:
-          name: "Install GCC and Make"
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y gcc make
 
       - run:
           name: Build calendar exe
