@@ -1,10 +1,10 @@
 all: calendar.exe
 
 calendar.exe: calendar.o
-	 gcc -o calendar.exe calendar.o
+	 gcc -o calendar.exe *.o
 
 calendar.o: calendar.c
-	 gcc -c calendar.c
+	 gcc -c *.c
      
 clean:
-	 rm calendar.o calendar.exe
+	 rm *.o calendar.exe
