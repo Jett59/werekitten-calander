@@ -9,8 +9,8 @@ jobs:
       - run:
           name: "Install GCC and Make"
           command: |
-            apt-get update
-            apt-get install -y gcc make
+            sudo apt-get update
+            sudo apt-get install -y gcc make
 
       - run:
           name: Build calendar exe
