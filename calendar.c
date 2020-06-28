@@ -12,14 +12,40 @@ if(dictionary == 0) {
 fprintf(stderr, "error: unable to open dictionary file\n");
 return 1;
 }
-char* chars = malloc(1024*sizeof(char));
-void* ankor = (void*)chars;
+unsigned int fileLength = 0;
+unsigned int wordCount = 1;
+char currentChar = 0;
+while((currentChar = getc(dictionary)) != -1) {
+fileLength++;
+if(currentChar == '\n') {
+wordCount++;
+}
+}
+rewind(dictionary);
+char** words = malloc(wordCount*sizeof(char*));
+void* wordsAnkor = (void*)words;
+char* chars = malloc(fileLength*sizeof(char));
+void* charsAnkor = (void*)chars;
+*words = chars;
+words++;
 while((*chars = getc(dictionary)) != -1) {
+if(*chars == '\n') {
+*chars = '\0';
+*words = chars+1;
+words++;
+}
 chars++;
 }
-*chars = '\n';
-chars = (char*) ankor;
-printf("read: \n%s", chars);
-free(ankor);
+*chars = '\0';
+chars = (char*)charsAnkor;
+words = (char**)wordsAnkor;
+for(int i = 0; i < wordCount; i++) {
+printf(*words);
+words++;
+}
+printf("\n");
+words = (char**)wordsAnkor;
+free(chars);
+free(words);
 return 0;
 }
