@@ -12,10 +12,14 @@ if(dictionary == 0) {
 fprintf(stderr, "error: unable to open dictionary file\n");
 return 1;
 }
-printf("reading: \n");
-char str[] = "hello!\0";
-while(fgets(str, 30, dictionary) != 0) {
-printf("%s ", str);
+char* chars = malloc(1024*sizeof(char));
+void* ankor = (void*)chars;
+while((*chars = getc(dictionary)) != -1) {
+chars++;
 }
+*chars = '\n';
+chars = (char*) ankor;
+printf("read: \n%s", chars);
+free(ankor);
 return 0;
 }
