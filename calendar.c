@@ -40,7 +40,7 @@ chars++;
 chars = (char*)charsAnkor;
 words = (char**)wordsAnkor;
 for(int i = 0; i < wordCount; i++) {
-printf(*words);
+printf("%s ", *words);
 words++;
 }
 printf("\n");
