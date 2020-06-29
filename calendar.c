@@ -32,21 +32,21 @@ void* wordsAnkor = (void*)words;
 char* chars = malloc(fileLength*sizeof(char));
 void* charsAnkor = (void*)chars;
 words->chars = chars;
-words++;
 int wordLength = 0;
 while((*chars = getc(dictionary)) != -1) {
 if(*chars == '\n') {
 *chars = '\0';
-words->chars = chars+1;
 words->length = wordLength;
-wordLength = 0;
 words++;
+words->chars = chars+1;
+wordLength = 0;
 }else {
 wordLength++;
 }
 chars++;
 }
 *chars = '\0';
+words->length = wordLength;
 chars = (char*)charsAnkor;
 words = (struct String*)wordsAnkor;
 for(int i = 0; i < wordCount; i++) {
