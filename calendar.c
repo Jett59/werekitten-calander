@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct String {
+char* chars;
+int length;
+};
+
 int main(int argc, char* argv[]) {
 FILE* dictionary;
 if(argc > 1) {
@@ -22,29 +27,34 @@ wordCount++;
 }
 }
 rewind(dictionary);
-char** words = malloc(wordCount*sizeof(char*));
+struct String* words = malloc(wordCount*sizeof(struct String));
 void* wordsAnkor = (void*)words;
 char* chars = malloc(fileLength*sizeof(char));
 void* charsAnkor = (void*)chars;
-*words = chars;
+words->chars = chars;
 words++;
+int wordLength = 0;
 while((*chars = getc(dictionary)) != -1) {
 if(*chars == '\n') {
 *chars = '\0';
-*words = chars+1;
+words->chars = chars+1;
+words->length = wordLength;
+wordLength = 0;
 words++;
+}else {
+wordLength++;
 }
 chars++;
 }
 *chars = '\0';
 chars = (char*)charsAnkor;
-words = (char**)wordsAnkor;
+words = (struct String*)wordsAnkor;
 for(int i = 0; i < wordCount; i++) {
-printf("%s ", *words);
+printf("%s %d ", words->chars, words->length);
 words++;
 }
 printf("\n");
-words = (char**)wordsAnkor;
+words = (struct String*)wordsAnkor;
 free(chars);
 free(words);
 return 0;
