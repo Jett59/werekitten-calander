@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct String {
+typedef struct String {
 char* chars;
 int length;
-};
+} String;
 
 int main(int argc, char* argv[]) {
 FILE* dictionary;
@@ -27,7 +27,7 @@ wordCount++;
 }
 }
 rewind(dictionary);
-struct String* words = malloc(wordCount*sizeof(struct String));
+String* words = malloc(wordCount*sizeof(String));
 void* wordsAnkor = (void*)words;
 char* chars = malloc(fileLength*sizeof(char));
 void* charsAnkor = (void*)chars;
@@ -48,13 +48,13 @@ chars++;
 *chars = '\0';
 words->length = wordLength;
 chars = (char*)charsAnkor;
-words = (struct String*)wordsAnkor;
+words = (String*)wordsAnkor;
 for(int i = 0; i < wordCount; i++) {
 printf("%s %d ", words->chars, words->length);
 words++;
 }
 printf("\n");
-words = (struct String*)wordsAnkor;
+words = (String*)wordsAnkor;
 free(chars);
 free(words);
 return 0;
