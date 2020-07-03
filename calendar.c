@@ -54,26 +54,41 @@ words->length = wordLength;
 void* wordsEnd = (void*)words;
 chars = (char*)charsAnkor;
 words = (String*)wordsAnkor;
+String* shortlist = malloc(50*sizeof(String));
+void* shortlistAnkor = (void*)shortlist;
 for(int i = 0; i < 50; i++) {
 String* word = randomWord(&words, 25000, wordsEnd);
 if(word == 0) {
 words = (String*)wordsAnkor;
+i--;
 continue;
 }
-printf("%s %d\n", word->chars, word->length);
-words++;
+*shortlist = *word;
+shortlist++;
+}
+void* shortlistEnd = (void*)shortlist;
+shortlist = (String*)shortlistAnkor;
+for(int i = 0; i < 1; i++) {
+String* finalWord = randomWord(&shortlist, 100, shortlistEnd);
+if(finalWord == 0) {
+shortlist = (String*)shortlistAnkor;
+i--;
+continue;
+}
+printf("%s", finalWord->chars);
 }
 printf("\n");
 words = (String*)wordsAnkor;
+shortlist = (String*)shortlistAnkor;
 free(chars);
 free(words);
+free(shortlist);
 return 0;
 }
 
 String* randomWord(String** words, int probability, void* wordsEnd) {
 while(rand()%probability != probability-1) {
 if(((String*)wordsEnd)-(*words) <= 0) {
-printf("last word: %s\n", (*words)->chars);
 return 0;
 }
 (*words)++;
