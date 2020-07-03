@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct String {
 char* chars;
 int length;
 } String;
 
+String* randomWord(String**, int, void*);
+
 int main(int argc, char* argv[]) {
+srand(time(0));
 FILE* dictionary;
 if(argc > 1) {
 dictionary = fopen(argv[1], "r");
@@ -47,10 +51,16 @@ chars++;
 }
 *chars = '\0';
 words->length = wordLength;
+void* wordsEnd = (void*)words;
 chars = (char*)charsAnkor;
 words = (String*)wordsAnkor;
-for(int i = 0; i < wordCount; i++) {
-printf("%s %d ", words->chars, words->length);
+for(int i = 0; i < 50; i++) {
+String* word = randomWord(&words, 25000, wordsEnd);
+if(word == 0) {
+words = (String*)wordsAnkor;
+continue;
+}
+printf("%s %d\n", word->chars, word->length);
 words++;
 }
 printf("\n");
@@ -58,4 +68,15 @@ words = (String*)wordsAnkor;
 free(chars);
 free(words);
 return 0;
+}
+
+String* randomWord(String** words, int probability, void* wordsEnd) {
+while(rand()%probability != probability-1) {
+if(((String*)wordsEnd)-(*words) <= 0) {
+printf("last word: %s\n", (*words)->chars);
+return 0;
+}
+(*words)++;
+}
+return *words;
 }
